@@ -31,10 +31,13 @@ if(process.argv[2] == '-store') {
 				console.log(cipheredOutput[i]);
 
 				// 파일 쓰기
-				fs.appendFileSync('siteinfo.txt', cipheredOutput[i] + '\n', 'utf8'); 
-				console.log(cipheredOutput[i] + 'was appended to file!');
+				fs.appendFile('siteinfo.txt', cipheredOutput[i] + '\n', 'utf8', function(err, data) {
+					console.log(cipheredOutput[i] + 'was appended to file!');
+					process.exit();
+				}); 
+				
 			}
-			process.exit();
+			
 		} // if end.
 
 		r.setPrompt(menu[index]);
@@ -47,8 +50,8 @@ if(process.argv[2] == '-store') {
 else if(process.argv[2] == '-restore') {
 	// console.log('restore');
 	// read file
-	var data = fs.readFileSync('siteinfo.txt', 'utf8');
-	// split data by line
+	fs.readFile('siteinfo.txt', 'utf8', function(err, data) {
+		// split data by line
 	var str = data.split('\n');
 
 	for(var i = 0; i < 4; i++) {
@@ -60,4 +63,6 @@ else if(process.argv[2] == '-restore') {
 		console.log(decipheredOutput[i]);
 	}
 	process.exit();
+	});
+	
 }
